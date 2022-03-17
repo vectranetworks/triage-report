@@ -1,0 +1,11 @@
+{
+    "MD024": {
+        /*
+        MD024 - Multiple headings with the same content
+        https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md024---multiple-headings-with-the-same-content
+
+        Set to siblings only since some headings might be repeated, especially in the case of a CHANGELOG
+         */
+        "siblings_only": true
+    }
+}

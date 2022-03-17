@@ -1,0 +1,6 @@
+docx-mailmerge
+pylint
+pytest
+urllib3
+vectra_api_tools
+tqdm

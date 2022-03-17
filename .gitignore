@@ -1,0 +1,17 @@
+*.log
+*.loge
+*.swp
+.DS_Store
+.bash_history
+.env
+.pytest_cache
+__pycache__
+csv
+*.csv
+*.csve
+*.docx
+*.json
+*.sed
+temp*
+*/lib/
+*/bin/
