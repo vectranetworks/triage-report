@@ -12,7 +12,7 @@ DETECTION_CATEGORIES = [
 
 # The max number of rows in certain tables
 LIST_SIZE = 50
-
+MAX_QUERY_SIZE = 1023
 PAGE_SIZE = 500
 
 CURRENT_DATE = datetime.now()
