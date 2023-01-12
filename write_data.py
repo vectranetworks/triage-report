@@ -1,8 +1,13 @@
-'''Perform a mail merge on template.docx to create the Triage Report'''
-import logging
-from datetime import date, datetime
-from csv import reader
-from os import path
+'''Perform a mail merge on the template to create the Triage Report'''
+try:
+    import logging
+    from csv import reader
+    from datetime import date, datetime
+    from os import mkdir, path
+    from ansi_colors import RED, RESET
+
+except ModuleNotFoundError as module_error:
+    print(module_error,' Try running pip3 install -r requirements.txt')
 
 from mailmerge import MailMerge
 
@@ -31,19 +36,22 @@ def write_report(title='VTR-' + date_string):
             report.merge_rows(csv_file.columns[0], data)
         else:
             logging.debug('csv file %s not found', csv_file.name)
+            print(RED + 'ERROR:' + RESET + 'csv file %s not found', csv_file.name)
 
     logging.info('Finished populating tables, writing output to %s.docx', title)
 
     # write output to a new Word file
+    if not path.exists('reports'):
+        mkdir('reports')
     try:
-        report.write(f'{title}.docx')
+        report.write(f'reports/{title}.docx')
     except FileNotFoundError as my_file_error:
         logging.error('Error: %s', my_file_error)
 
 
 def read_csv_data(filename, columns):
     '''Read CSV data'''
-    with open(f'csv/{filename}.csv', newline='',encoding='UTF-8') as csvfile:
+    with open(f'csv/{filename}.csv', newline='', encoding='UTF-8') as csvfile:
         csvreader = reader(csvfile)
         data = [ { column: entry for column, entry in zip(columns, row) } for row in csvreader ]
     return data
