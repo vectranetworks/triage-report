@@ -154,6 +154,7 @@ cython_debug/
 *.swp
 .DS_Store
 .bash_history
+.vscode
 csv
 *.csv
 *.csve
@@ -165,3 +166,5 @@ csv
 temp*
 */lib/
 */bin/
+reports/*
+log/*
