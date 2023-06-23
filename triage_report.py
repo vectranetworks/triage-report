@@ -6,7 +6,7 @@ Take a Brain URL, and API token, and output CSVs for a triage report
 or a full Triage Report
 '''
 
-__version__ = '1.1.0'
+__version__ = '1.2.0'
 __author__  = 'Eric Martin'
 __contact__ = 'emartin@vectra.ai'
 
