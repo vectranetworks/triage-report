@@ -10,10 +10,6 @@ def not_triaged(detection):
     return detection['triage_rule_id'] is None
 
 
-def is_triaged(detection):
-    return not not_triaged(detection)
-
-
 class EmptyGroup:
     '''
     Empty Group - Table 14
@@ -25,7 +21,7 @@ class EmptyGroup:
 
     @staticmethod
     def extract(group):
-        if not group['members']:
+        if group.get('members') is None:
             return {group['id']: group['name']}
 
     @staticmethod
