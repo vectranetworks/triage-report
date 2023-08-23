@@ -1,5 +1,10 @@
 # Vectra Triage Report
 
+Read the detections on a Vectra Detect Brain and make recommendations for creating
+Triage Filters.
+
+![Picture of Triage Report cover](/assets/images/Triage%20Report.png)
+
 ## Requirements
 
 1. Python3
@@ -34,7 +39,7 @@
 5. If you created a Virtual Environment in Step 3, you do not need to create
     a new environment each time, though you do need to ensure it is active via
     `source .env/bin/activate`
-6. Run the script as in [Usage](#Usage)
+6. Run the script as in [Usage](#usage)
 
 ### Windows
 
@@ -49,7 +54,7 @@
 6. If you created a Virtual Environment in Step 3, you do not need to create a
     new environment each time, though you do need to ensure it is active via
     `/env-triage/Scripts/activate`
-7. Run the script as in [Usage](#Usage)
+7. Run the script as in [Usage](#usage)
 
 ## Usage
 
