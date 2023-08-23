@@ -4,16 +4,15 @@ try:
     from csv import reader
     from datetime import date, datetime
     from os import mkdir, path
-    from ansi_colors import RED, RESET
 
+    from mailmerge import MailMerge
+
+    from ansi_colors import RED, RESET
+    from csv_file import ALL_CSV_FILES
 except ModuleNotFoundError as module_error:
     print(module_error,' Try running pip3 install -r requirements.txt')
 
-from mailmerge import MailMerge
-
-from csv_file import ALL_CSV_FILES
-
-date_string = datetime.today().strftime(('%y%m%d'))
+date_string = datetime.today().strftime('%y%m%d')
 
 def write_report(title='VTR-' + date_string):
     '''write csv data to Word report'''
@@ -22,10 +21,11 @@ def write_report(title='VTR-' + date_string):
     logging.debug('Open Report Template, will name file %s.docx', title)
 
     report = MailMerge('template.docx')
-
+    # fill in current date, customer, analyst info
     report.merge(
         date        = date.today().strftime('%B %d, %Y'),   # November 01, 2021
-        short_date  = date.today().strftime('%y%m%d')       # 211101
+        short_date  = date.today().strftime('%y%m%d'),      # 211101
+        year        = date.today().strftime('%Y')
     )
     logging.info('Populating Word Tables')
 

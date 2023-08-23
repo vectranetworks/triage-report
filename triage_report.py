@@ -5,8 +5,7 @@ Triage Report
 Take a Brain URL, and API token, and output CSVs for a triage report
 or a full Triage Report
 '''
-
-__version__ = '1.1.0'
+__version__ = '1.1.4'
 __author__  = 'Eric Martin'
 __contact__ = 'emartin@vectra.ai'
 
@@ -49,16 +48,19 @@ def main():
     vectra_client = setup_vectra_client(url=args.cognito_url,token=args.cognito_token)
 
     assert not (args.tc and args.severity)
+    if not validate_days(args.days):
+        sys.exit('--days must be an integer between 1 and 365')
 
     if args.report_only:
         write_report()
     else: #if args.tc:
         if args.tc:
-            collect_data(vectra_client, threat_score=args.tc[0], certainty_score=args.tc[1])
+            collect_data(vectra_client, threat_score=args.tc[0],
+                        certainty_score=args.tc[1], days=args.days)
         elif args.severity:
-            collect_data(vectra_client, severity=args.severity)
+            collect_data(vectra_client, severity=args.severity, days=args.days)
         else:
-            collect_data(vectra_client)
+            collect_data(vectra_client,days=args.days)
 
     if not args.csv_only:
         write_report()
@@ -77,9 +79,9 @@ def config_args(args):
     parser.add_argument('--cognito_url', '--cognito-url', type=str)
     parser.add_argument('--company_name', type=str, default=False)
     parser.add_argument('--csv_only', action='store_true')
-    parser.add_argument('--debug', action='store_true')
-
     parser.add_argument('--report_only', action='store_true')
+    parser.add_argument('--days', type=int, default=35, help='How many days back to query')
+    parser.add_argument('--debug', action='store_true')
     group = parser.add_mutually_exclusive_group()
     group.add_argument('--tc', nargs=2, type=int)
     group.add_argument('--severity', nargs='+')
@@ -133,6 +135,18 @@ def setup_vectra_client(url,token):
     print('Successfully connected to ' + GREEN + url + RESET)
     logging.info('Successfully connected to %s',url)
     return brain
+
+
+def validate_days(days:int) -> bool:
+    '''
+    Validate parameter input for days (0 < days < 366)
+    :param days int: how many days to query the Vectra Brain
+    :return true for valid days as int, false otherwise
+    '''
+    if isinstance(days, int):        #pylint: disable=no-else-return
+        return bool(0 < days < 366)
+    else:
+        return False
 
 
 if __name__ == '__main__':

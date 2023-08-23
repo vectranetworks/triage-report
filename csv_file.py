@@ -1,17 +1,18 @@
 '''Write the CSV file'''
+try:
+    import logging
+    from datetime import datetime
 
-from datetime import datetime
-import logging
+    from constants import LIST_SIZE, SIX_MONTHS_AGO, THREE_MONTHS_AGO
 
-from constants import LIST_SIZE, ONE_MONTH_AGO, THREE_MONTHS_AGO, SIX_MONTHS_AGO
-
+except ModuleNotFoundError as module_error:
+    print(module_error,' Try running pip3 install -r requirements.txt')
 
 def not_triaged(detection):
+    '''
+    Take a detection and return True if triage_rule_id is None
+    '''
     return detection['triage_rule_id'] is None
-
-
-def is_triaged(detection):
-    return not not_triaged(detection)
 
 
 class EmptyGroup:
@@ -25,7 +26,11 @@ class EmptyGroup:
 
     @staticmethod
     def extract(group):
-        if not group['members']:
+        try:
+            if not group['members']:
+                return {group['id']: group['name']}
+        except KeyError as e:
+            logging.error(e)
             return {group['id']: group['name']}
 
     @staticmethod
@@ -172,6 +177,10 @@ class MarkAsCustom:
 
     @staticmethod
     def filter(data):
+        '''
+        Enumerate the dictionary of detections marked as custom, return where entries > 1
+        since these are recurring Marked as Custom and not one-offs
+        '''
         return ((item[1], item[0][0], item[0][1]) for item in data if item[1] > 1)
 
 
@@ -336,6 +345,7 @@ class Destination:
             # Info:Novel External Destination Port - detection['summary']['target_domains']
             # Exfil:Data Smuggler - detection['summary']['dst_ports']
             # Exfil:Data Smuggler - detection['summary']['dst_ips']
+
             for detail in detection['grouped_details']:
                 try:
                     domains_ports.append(
@@ -496,8 +506,10 @@ ALL_CSV_FILES = DETECTION_CSV_FILES + RULE_CSV_FILES + GROUP_CSV_FILES
 
 
 def get_all_values(json, key_names):
-    '''recursively search through entire json object for matching keys,
-     return a set of paired values'''
+    '''
+    recursively search through entire json object for matching keys,
+    return a set of paired values
+    '''
     results = set()
     for key, value in json.items():
         if key in key_names:

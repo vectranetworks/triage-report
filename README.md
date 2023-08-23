@@ -42,13 +42,13 @@
 2. Extract the contents of the zip file
 3. Change to the directory where the source is located
 4. (Optional recommended step): Setup a Virtual Environment
-    1. Create the Virtual Environment `python3 -m venv env-triage`
+    1. Create the Virtual Environment `python3 -m venv .env`
     2. Activate the Virtual Environment (note the prompt change in the second
     line when this is done properly)
 5. Install the prerequisites `pip3 install -r requirements.txt`
 6. If you created a Virtual Environment in Step 3, you do not need to create a
     new environment each time, though you do need to ensure it is active via
-    `/env-triage/Scripts/activate`
+    `/.env/Scripts/activate`
 7. Run the script as in [Usage](#Usage)
 
 ## Usage
