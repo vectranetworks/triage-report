@@ -6,7 +6,7 @@ Take a Brain URL, and API token, and output CSVs for a triage report
 or a full Triage Report
 '''
 
-__version__ = '1.2.0'
+__version__ = '1.2.1'
 __author__  = 'Eric Martin'
 __contact__ = 'emartin@vectra.ai'
 
@@ -96,6 +96,9 @@ def setup_vectra_client(url,token):
         url = input('Enter Cognito URL: ')
     if token is None:
         token = getpass('Enter Cognito API Token (characters will not display): ')
+
+    # Trim tailing /profile if it exists
+    url = url[:-8] if url.endswith('/profile') else url
 
     logging.info('Connecting to %s',url)
     print('Attempting to connect to brain at ' + YELLOW + url + RESET)
