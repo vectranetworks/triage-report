@@ -25,7 +25,8 @@ def write_report(title='VTR-' + date_string):
 
     report.merge(
         date        = date.today().strftime('%B %d, %Y'),   # November 01, 2021
-        short_date  = date.today().strftime('%y%m%d')       # 211101
+        short_date  = date.today().strftime('%y%m%d'),      # 211101
+        year        = date.today().strftime('%Y')           # 2021
     )
     logging.info('Populating Word Tables')
 
