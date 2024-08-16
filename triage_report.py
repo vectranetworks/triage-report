@@ -6,7 +6,7 @@ Take a Brain URL, and API token, and output CSVs for a triage report
 or a full Triage Report
 '''
 
-__version__ = '1.2.2'
+__version__ = '1.2.3'
 __author__  = 'Eric Martin'
 __contact__ = 'emartin@vectra.ai'
 
@@ -106,7 +106,7 @@ def setup_vectra_client(url,token):
     brain = VectraClientV2_2(url=url, token=token)
 
     try:
-        brain.get_health_check().content
+        brain.get_all_groups(page=1,page_size=1)
     except requests.exceptions.MissingSchema as connection_error:
         logging.error('Incorrect Schema used when connecting. %s',connection_error)
         sys.exit(RED + 'Incorrect Schema used when connecting. ' +
