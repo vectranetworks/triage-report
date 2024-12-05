@@ -6,7 +6,9 @@ try:
     from json import JSONDecodeError
 
     from tqdm import tqdm
+    from vat.vectra import HTTPException
 
+    from ansi_colors import RED, RESET
     from constants import MAX_QUERY_SIZE, PAGE_SIZE
     from csv_file import DETECTION_CSV_FILES, GROUP_CSV_FILES, RULE_CSV_FILES
     from score_range import CRITICAL, HIGH, LOW, MEDIUM, ScoreRange
@@ -67,9 +69,15 @@ def collect_data(vectra_client, threat_score=0, certainty_score=0,
 
     logging.debug('Filtering through rules')
     print('downloading Rules')
-    rules = list(get_rules(vectra_client,page_size=PAGE_SIZE))
+    try:
+        rules = list(get_rules(vectra_client,page_size=PAGE_SIZE))
+    except HTTPException:
+        rules = []
+        health = vectra_client.get_health_check(check='system')
+        print(f"{RED}There was an error fetching rules, continuing without. Platform Info:"
+              f"{health.json()['system']['version']['vectra_version']}{RESET}")
+
     collect_rules(rules)
-    #collect_rules(get_rules(vectra_client,page_size=PAGE_SIZE))
 
     logging.debug('Filtering through detections')
     print('downloading Detections (will take several minutes due to large data set)')
