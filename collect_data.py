@@ -224,7 +224,7 @@ def get_detections(vectra_client,days=35):
         # detection.last_timestamp:[now-35d to now-30d] and detection.state:active
 
         for i in tqdm(range(days_loop)):
-            response = vectra_client.advanced_search(
+            response = vectra_client.advanced_search( #TODO: adv_search is v2 only
                                         stype='detections', page_size=5000,
                                         query='detection.last_timestamp:[now-' +
                                         str((i + 1) * 5) + 'd to now-' + str(i * 5) +

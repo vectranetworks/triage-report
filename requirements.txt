@@ -2,5 +2,5 @@ docx-mailmerge
 pylint
 pytest
 urllib3
-vectra_api_tools
+vectra_api_tools>=3.3.0
 tqdm
